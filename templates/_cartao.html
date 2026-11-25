@@ -1,0 +1,23 @@
+{# Cartão de joia. Usado na home e nas abas. Recebe a variável "j". O código da joia NÃO é mostrado ao cliente. #}
+{% set foto_url = j.foto_url or url_for('placeholder', codigo=j.codigo) %}
+<article class="cartao glass" data-codigo="{{ j.codigo }}" data-nome="{{ j.nome }}"
+         data-categoria="{{ j.categoria }}" data-tipo="{{ j.tipo }}" data-foto="{{ foto_url }}" data-desconto="{{ j.desconto }}">
+  <div class="cartao-foto">
+    <img src="{{ foto_url }}"
+         alt="{{ j.nome }}" loading="lazy" decoding="async" width="300" height="300"
+         data-ph="{{ url_for('placeholder', codigo=j.codigo) }}">
+    {% if j.desconto %}<span class="selo selo-desc">-{{ j.desconto }}%</span>
+    {% elif j.lancamento %}<span class="selo">Novo</span>{% endif %}
+  </div>
+  <div class="cartao-info">
+    <h3>{{ j.nome }}</h3>
+    {% if j.material %}<p class="material">{{ j.material }}</p>{% endif %}
+    
+    {% if j.tamanhos %}
+    <div class="tamanhos" role="radiogroup" aria-label="Tamanho">
+      {% for t in j.tamanhos %}<button type="button" class="chip" data-tamanho="{{ t }}" role="radio" aria-checked="false">{{ t }}</button>{% endfor %}
+    </div>
+    {% endif %}
+    <button type="button" class="botao botao-add" data-add>Adicionar ao carrinho</button>
+  </div>
+</article>

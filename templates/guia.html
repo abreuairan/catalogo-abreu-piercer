@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titulo %}Guia de tamanhos · Abreu Piercer{% endblock %}
+{% block conteudo %}
+<section class="secao leitura">
+  <h1 class="titulo">Guia de tamanhos</h1>
+  {% include "_guia.html" %}
+  <a class="botao grande" href="https://wa.me/{{ whatsapp }}?text={{ 'Oi! Preciso de ajuda para escolher o tamanho da joia.' | urlencode }}" target="_blank" rel="noopener">Tirar dúvida pelo WhatsApp</a>
+</section>
+{% endblock %}

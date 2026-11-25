@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="hero">
+  <svg class="estrela estrela-g" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0C54 34 66 46 100 50 66 54 54 66 50 100 46 66 34 54 0 50 34 46 46 34 50 0Z"/></svg>
+  <p class="hero-sub">Exposições · Possibilidades · Visibilidade</p>
+  <h1>JÓIAS<br>ÚNICAS<br>PARA PESSOAS<br><span class="marca-script grande">Brilhantes</span></h1>
+  <p class="hero-texto">Perfuração é expressão corporal. Joia é identidade. Escolha as peças, monte o seu carrinho e finalize o orçamento direto comigo, pelo WhatsApp.</p>
+  <div class="hero-botoes">
+    <a class="botao" href="{{ url_for('categoria', slug='argolas') }}">Ver as joias</a>
+    <a class="botao botao-vazado" href="#guia">Guia de tamanhos</a>
+  </div>
+</section>
+
+{% if trabalhos %}
+<section class="secao" id="trabalhos">
+  <h2 class="titulo titulo-script"><span class="marca-script grande">Inspire-se</span></h2>
+  <p class="descricao">Algumas das perfurações e composições que já fiz.</p>
+  <div class="carrossel-wrap">
+    <button class="seta seta-e" type="button" aria-label="Anterior">‹</button>
+    <div class="carrossel" tabindex="0" aria-label="Fotos de trabalhos realizados">
+      {% for f in trabalhos %}<img src="{{ f }}" alt="Trabalho de piercing realizado {{ loop.index }}" loading="lazy" decoding="async" width="600" height="800">{% endfor %}
+    </div>
+    <button class="seta seta-d" type="button" aria-label="Próxima">›</button>
+  </div>
+</section>
+{% endif %}
+
+<section class="secao" id="tipos">
+  <h2 class="titulo">Escolha por <span>tipo</span></h2>
+  <div class="grade-cats">
+    {% for slug, nome, desc in categorias %}
+    <a class="cat glass {{ 'cat-dourada' if slug == 'pvd-gold' }}" href="{{ url_for('categoria', slug=slug) }}">
+      <span class="cat-nome">{{ nome }}</span>
+      <span class="cat-desc">{{ desc }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% if destaques %}
+<section class="secao">
+  <h2 class="titulo">Destaques <span>do mês</span></h2>
+  <div class="grade">{% for j in destaques %}{% include "_cartao.html" %}{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if lancamentos %}
+<section class="secao">
+  <h2 class="titulo">Lançamentos</h2>
+  <div class="grade">{% for j in lancamentos %}{% include "_cartao.html" %}{% endfor %}</div>
+</section>
+{% endif %}
+
+<section class="secao leitura" id="guia">
+  <h2 class="titulo">Guia de tamanhos</h2>
+  {% include "_guia.html" %}
+  <a class="botao grande" href="https://wa.me/{{ whatsapp }}?text={{ 'Oi! Preciso de ajuda para escolher o tamanho da joia.' | urlencode }}" target="_blank" rel="noopener">Tirar dúvida pelo WhatsApp</a>
+</section>
+{% endblock %}

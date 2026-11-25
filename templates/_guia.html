@@ -1,0 +1,63 @@
+{# Conteúdo do guia de tamanhos. Usado na página /guia-de-tamanhos e na rolagem da home. #}
+  <p class="descricao">Três medidas definem a sua joia: o <b>diâmetro</b> (argolas), o <b>comprimento da haste</b> (retas) e a <b>espessura</b>. Na dúvida, escolha a peça e finalize o orçamento comigo: eu confirmo o melhor tamanho para a sua perfuração.</p>
+
+  <article class="glass bloco">
+    <h2>Argolas</h2>
+    <p>Medimos o <b>diâmetro interno</b>, de ponta a ponta por dentro da argola.</p>
+    <div class="aneis" aria-label="Tamanhos de argola: 6, 8, 10 e 12 milímetros">
+      {% for mm in (6, 8, 10, 12) %}
+      <figure><svg viewBox="0 0 100 100" width="{{ 30 + mm * 4 }}" height="{{ 30 + mm * 4 }}"><circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="9"/></svg><figcaption>{{ mm }}mm</figcaption></figure>
+      {% endfor %}
+    </div>
+    <p class="nota">Os círculos mostram a diferença proporcional entre os tamanhos, não o tamanho real na tela.</p>
+  </article>
+
+  <article class="glass bloco">
+    <h2>Labret reto <small class="h2-detalhe">(esfera e disco)</small></h2>
+    <p>Medimos o <b>comprimento da haste</b>, sem contar o topo.</p>
+    <p class="mais-comuns">Tamanhos mais comuns: <b>8mm, 10mm e 12mm</b>. A esfera do labret tem sempre <b>3mm</b>.</p>
+    <div class="aneis labrets" aria-label="Tamanhos de labret: 8, 10 e 12 milímetros">
+      {% for mm in (8, 10, 12) %}
+      <figure><svg viewBox="0 0 60 {{ 40 + mm * 5 }}" width="{{ 28 + mm * 2 }}" height="{{ 50 + mm * 5 }}" aria-hidden="true"><circle cx="30" cy="16" r="14" fill="currentColor"/><rect x="25" y="28" width="10" height="{{ mm * 5 }}" rx="3" fill="currentColor" opacity=".7"/><rect x="8" y="{{ 28 + mm * 5 }}" width="44" height="9" rx="4.5" fill="currentColor"/><path d="M46 30v{{ mm * 5 - 4 }}" stroke="var(--gold)" stroke-width="2"/></svg><figcaption>{{ mm }}mm</figcaption></figure>
+      {% endfor %}
+    </div>
+    <p class="nota">Os desenhos mostram a diferença proporcional entre os tamanhos, não o tamanho real na tela.</p>
+    <table class="tabela"><tr><th>Medida comum</th><th>Onde costuma ser usada</th></tr>
+      <tr><td>8, 10 e 12mm</td><td>Lóbulo, hélix, tragus, nostril, lábio</td></tr></table>
+    <p class="nota">Valores de referência. Cada anatomia é diferente, por isso confirmo com você antes de fechar.</p>
+  </article>
+
+  <article class="glass bloco">
+    <h2>Barbell reto <small class="h2-detalhe">(duas esferas)</small></h2>
+    <p>Medimos o <b>comprimento da haste</b>, sem contar as esferas.</p>
+    <p class="mais-comuns">Tamanhos mais comuns: <b>14mm, 16mm e 18mm</b>. As esferas do barbell têm <b>4mm</b>.</p>
+    <div class="barbells" aria-label="Tamanhos de barbell reto: 14, 16 e 18 milímetros">
+      {% for mm in (14, 16, 18) %}
+      <figure><svg viewBox="0 0 {{ 50 + mm * 10 }} 50" width="{{ 40 + mm * 10 }}" height="40" aria-hidden="true"><circle cx="14" cy="22" r="12" fill="currentColor"/><rect x="24" y="18" width="{{ mm * 10 + 2 }}" height="8" rx="4" fill="currentColor" opacity=".7"/><circle cx="{{ mm * 10 + 36 }}" cy="22" r="12" fill="currentColor"/><path d="M26 42h{{ mm * 10 - 2 }}" stroke="var(--gold)" stroke-width="2"/></svg><figcaption>{{ mm }}mm</figcaption></figure>
+      {% endfor %}
+    </div>
+    <p class="nota">Os desenhos mostram a diferença proporcional entre os tamanhos, não o tamanho real na tela.</p>
+
+    <table class="tabela"><tr><th>Medida comum</th><th>Onde costuma ser usada</th></tr>
+      <tr><td>14, 16 e 18mm</td><td>Mamilo, sobrancelha, umbigo reto</td></tr>
+      <tr><td>30 a 38mm</td><td>Transversais (barbells longos)</td></tr></table>
+    <p class="nota">Valores de referência. Cada anatomia é diferente, por isso confirmo com você antes de fechar.</p>
+  </article>
+
+  <article class="glass bloco">
+    <h2>Tamanho dos topos</h2>
+    <p>Nas joias retas decoradas, o topo (a parte de enfeite) varia de <b>3mm até 10mm</b>. A medida é de ponta a ponta do enfeite, no ponto mais largo.</p>
+    <div class="aneis topos" aria-label="Tamanhos de topo: 3, 4, 5, 6, 8 e 10 milímetros">
+      {% for mm in (3, 4, 5, 6, 8, 10) %}
+      <figure><svg viewBox="0 0 100 112" width="{{ 10 + mm * 5 }}" height="{{ (10 + mm * 5) * 1.12 }}" aria-hidden="true"><polygon points="50.0,6.0 61.2,36.6 93.7,37.8 68.1,57.9 77.0,89.2 50.0,71.0 23.0,89.2 31.9,57.9 6.3,37.8 38.8,36.6" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M4 106h92" stroke="var(--gold)" stroke-width="3"/></svg><figcaption>{{ mm }}mm</figcaption></figure>
+      {% endfor %}
+    </div>
+    <p class="nota">Estrela só de exemplo: seus topos podem ser flores, mandalas, pedras e outros formatos. Os desenhos mostram a diferença proporcional entre os tamanhos, não o tamanho real na tela.</p>
+  </article>
+
+  <article class="glass bloco">
+    <h2>Espessura</h2>
+    <table class="tabela"><tr><th>Medida</th><th>Também chamada</th></tr>
+      <tr><td>1,2mm</td><td>16g</td></tr><tr><td>1,6mm</td><td>14g</td></tr></table>
+  </article>
+

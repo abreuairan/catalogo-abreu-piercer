@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titulo %}Carrinho · Abreu Piercer{% endblock %}
+{% block conteudo %}
+<section class="secao leitura">
+  <h1 class="titulo">Seu <span>carrinho</span></h1>
+
+  <div id="carrinho-vazio" class="vazio glass" hidden>
+    <p>Seu carrinho está vazio.</p>
+    <a class="botao" href="{{ url_for('categoria', slug='argolas') }}">Escolher joias</a>
+  </div>
+
+  <div id="carrinho-cheio" hidden>
+    <ul id="lista-carrinho" class="lista-carrinho"></ul>
+
+    <div id="cupom-area" class="glass cupom" hidden>
+      <span>Cupom aplicado</span><strong id="cupom-codigo"></strong><em>5% de desconto</em>
+    </div>
+
+    <button type="button" class="botao grande botao-whats" id="finalizar">Finalizar orçamento com o profissional</button>
+    <p class="nota centro">Você vai para a nossa conversa no WhatsApp com as joias, os tamanhos e o cupom já escritos. Aqui não há pagamento.</p>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script nonce="{{ nonce }}">Abreu.iniciarCarrinho();</script>{% endblock %}

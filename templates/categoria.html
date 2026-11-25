@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block titulo %}{{ nome }} · Abreu Piercer{% endblock %}
+{% block conteudo %}
+<nav class="abas" aria-label="Tipos de joia">
+  {% for s, n, _ in categorias %}
+  <a href="{{ url_for('categoria', slug=s) }}" class="aba {{ 'ativa' if s == slug }} {{ 'aba-dourada' if s == 'pvd-gold' and s != slug }}"
+     {% if s == slug %}aria-current="page"{% endif %}>{{ n }}</a>
+  {% endfor %}
+  <a href="{{ url_for('guia') }}" class="aba aba-guia">Guia de tamanhos</a>
+</nav>
+
+<section class="secao">
+  <h1 class="titulo">{{ nome }}</h1>
+  <p class="descricao">{{ descricao }}</p>
+  {% if filtros %}
+  <div class="filtros" role="group" aria-label="Filtrar por tipo de joia">
+    <button type="button" class="aba ativa" data-filtro="">Todas</button>
+    {% for s, n in filtros %}<button type="button" class="aba" data-filtro="{{ s }}">{{ n }}</button>{% endfor %}
+  </div>
+  {% endif %}
+  {% if joias %}
+  <div class="grade" id="grade" data-mais="{{ url_for('categoria_mais', slug=slug) }}" data-proximo="{{ joias|length }}" data-total="{{ total }}">{% for j in joias %}{% include "_cartao.html" %}{% endfor %}</div>
+  <div id="carregando" class="carregando" aria-live="polite" hidden><span class="bolinhas"><i></i><i></i><i></i></span> Carregando mais joias…</div>
+  <div id="fim-da-lista" aria-hidden="true"></div>
+  {% else %}
+  <p class="vazio glass">Novas peças desta categoria chegando em breve. Fale comigo pelo
+    <a href="https://instagram.com/{{ instagram }}" target="_blank" rel="noopener">Instagram</a>.</p>
+  {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script nonce="{{ nonce }}">
+  // Deixa a aba ativa visível no carrossel horizontal de abas
+  document.querySelector('.abas .aba.ativa')?.scrollIntoView({inline: 'center', block: 'nearest'});
+
+  // Lista em partes: 15 joias por vez. Quando o cliente chega perto do fim, as próximas 15 são pedidas ao servidor.
+  (() => {
+    const grade = document.getElementById('grade'); if (!grade) return;
+    const aviso = document.getElementById('carregando');
+    const fim = document.getElementById('fim-da-lista');
+    let proximo = Number(grade.dataset.proximo), total = Number(grade.dataset.total), tipo = '', ocupado = false, pedido = 0;
+
+    async function carregar(doZero) {
+      if (ocupado && !doZero) return;
+      if (!doZero && proximo >= total) return;
+      ocupado = true; aviso.hidden = false;
+      const meu = ++pedido;                        // se o filtro mudar no meio, a resposta antiga é ignorada
+      try {
+        const r = await fetch(`${grade.dataset.mais}?inicio=${doZero ? 0 : proximo}&tipo=${encodeURIComponent(tipo)}`);
+        const d = await r.json();
+        if (meu !== pedido) return;
+        if (doZero) grade.innerHTML = '';
+        grade.insertAdjacentHTML('beforeend', d.html);
+        proximo = d.proximo; total = d.total;
+      } catch (e) { /* sem internet: tenta de novo na próxima rolagem */ }
+      finally { if (meu === pedido) { ocupado = false; aviso.hidden = true; } }
+      // tela grande: se o fim da lista ainda estiver visível, já busca o grupo seguinte
+      if (proximo < total && fim.getBoundingClientRect().top < innerHeight + 600) carregar(false);
+    }
+
+    new IntersectionObserver((v) => { if (v[0].isIntersecting) carregar(false); }, {rootMargin: '600px'}).observe(fim);
+
+    // Filtro por tipo (só na PVD GOLD): recomeça a lista já filtrada
+    document.querySelectorAll('.filtros [data-filtro]').forEach((botao) => {
+      botao.addEventListener('click', () => {
+        document.querySelectorAll('.filtros .aba').forEach((b) => b.classList.toggle('ativa', b === botao));
+        tipo = botao.dataset.filtro; ocupado = false;
+        carregar(true);
+      });
+    });
+  })();
+</script>
+{% endblock %}
